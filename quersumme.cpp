@@ -2,35 +2,35 @@
 
 using namespace std;
 
-int CrossSum(int num);
+double Calc(int km, int usage);
 
 int main() {
-
-	int num = -1234;
-
-	int sum = CrossSum(num);
-
-	cout << sum << endl;
-
-	//cout << "Erg = " << erg << endl;
+	double a = Calc(432, 12);
+	cout << a << endl;
 
 
 	return 0;
 }
 
-int CrossSum(int num) {		//call by value
-	int remainder = 0;		// Divisonsrest
-	int sum = 0;			//Quersumme
+double Calc(double km, double usage) {		//call by value
 
-	if (num < 0) {
-		num = -num;
+	if (km > 0 && usage > 0) {
+		return usage * 100.0 / km;
+	}
+	else {
+		return 0.0;
 	}
 
-	while (num > 0) {
-		remainder = num % 10;
-		sum += remainder;
-		num /= 10;
+}
+// call by reference, keine Kopie der Parameter , 
+// keine Änderung der Params zulässig wg const. damit effizienter
+
+double Calc(double const & km, double const & usage) {		
+	if (km > 0 && usage > 0) {
+		return usage * 100.0 / km;
+	}
+	else {
+		return 0.0;
 	}
 
-	return sum;
 }
