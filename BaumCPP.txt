@@ -1,0 +1,129 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+struct TtreeNode{
+    int data;
+    TtreeNode *pLeft;
+    TtreeNode *pRight;
+}
+
+
+TtreeNode * makeNode(int const data){
+    TtreeNode * pNewNode = new TtreeNode;
+    
+    pNewNode->data = data;
+    pNewNode->pLeft = nullptr;
+    pNewNode->pRight = nullptr;
+    
+    return pNewNode;
+}
+
+
+int getData() {
+    int data = 0;
+    cout << "Knnoten: ";
+    cin >> data;
+    return data;
+}
+
+
+// erzeugen binärbaum 
+TtreeNode * Tree(size_t const size) {
+    TtreeNode pNode = nullptr;
+    if(size > 0){
+        pNode = makeNode(getData(3));
+        
+        pNode->pLeft = Tree(size / 2);
+        pNode->pRight = Tree(size - size / 2 - 1);
+    }
+    return pNode;
+}
+
+// baum ausgeben
+void printtree(TtreeNode *pRoot, size_t indent){
+    if(pRoot != nullptr){
+        string s(indent, ' ');
+        printtree(pRoot->pRight, indent + 3);
+        cout << s << pRoot->data << endl;
+        printtree(pRoot->pLeft, indent + 3);
+    }
+}
+
+
+// aufbau binäre suchbaum
+void InsertSorted(TtreeNode*& pRoot, int data){
+    if(pRoot == nullptr){
+        pRoot = makeNode(data);
+    }   
+    else if(data < pRoot->data){
+        InsertSorted(pRoot->pLeft, data);
+    }
+    else if(data > pRoot->data){
+        InsertSorted(pRoot->pRight, data);
+    }
+    else{
+        cout << "Element: " << data << "bereits vorhanden" << endl;
+    }
+}
+
+
+// Baumdruchlauf
+void PrintPreorder(TtreeNode* pRoot){
+    if(pRoot != nullptr){
+        cout << pRoot->data << endl:
+        PrintPreorder(pRoot->pLeft);
+        PrintPreorder(pRoot->pRight);
+    }
+}
+
+void Flush(TtreeNode*& pRoot){
+    if(pRoot != nullptr){
+        Flush(pRoot->pLeft);
+        Flush(pRoot->pRight);
+        
+        cout << "freeing: " << pRoot->data << endl;
+        delete pRoot;
+        pRoot = nullptr;
+    }
+}
+
+int main()
+{
+    //cout<<"Hello World";
+    
+    //cout << "Eingabe: "<< endl;
+    //TtreeNode* pRoot = Tree(10);
+    
+    //cout << endl << "Baum: " << endl;
+    //printtree(pRoot, 0);
+    
+    
+    
+    //----------------------------------------------------------------------
+    
+    TtreeNode* pRoot = nullptr;
+    
+    InsertSorted(pRoot, 19);
+    InsertSorted(pRoot, 1);
+    InsertSorted(pRoot, 9);
+    InsertSorted(pRoot, 16);
+    InsertSorted(pRoot, 31);
+    
+    printtree(pRoot, 0);
+    
+    PrintPreorder(pRoot);
+    
+    Flush(pRoot);
+
+    return 0;
+}
